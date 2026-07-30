@@ -55,8 +55,9 @@ export const CATS = [
   },
   {
     key: "fresh",
-    name: { en: "Fresh", te: "తాజా" },
-    te: "తాజా",
+    // matches the Products page group and the footer link
+    name: { en: "Fresh dairy", te: "తాజా ఉత్పత్తులు" },
+    te: "తాజా ఉత్పత్తులు",
     blurb: {
       en: "Paneer, curd and butter made the night before delivery, never frozen.",
       te: "డెలివరీకి ముందు రాత్రి తయారుచేసిన పనీర్, పెరుగు, వెన్న — ఎప్పుడూ ఫ్రోజెన్ కాదు.",
