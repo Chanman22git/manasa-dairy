@@ -136,8 +136,10 @@ export const T = {
   navStory: { en: "Our Story", te: "మా కథ" },
   navContact: { en: "Contact", te: "సంప్రదించండి" },
   bulkEnquiry: { en: "Bulk Enquiry", te: "బల్క్ ఎంక్వైరీ" },
-  homeH1a: { en: "The dairy your kitchen", te: "మీ వంటగదికి" },
-  homeH1b: { en: "can build a menu on.", te: "నమ్మకమైన పాల ఉత్పత్తులు." },
+  // TE deliberately unchanged: నమ్మకమైన ("trustworthy") already carries the
+  // trust/purity emphasis the new English line was rewritten for.
+  homeH1a: { en: "The purity your kitchen", te: "మీ వంటగదికి" },
+  homeH1b: { en: "can count on.", te: "నమ్మకమైన పాల ఉత్పత్తులు." },
   rateCard: { en: "Request a rate card", te: "ధరల జాబితా కోరండి" },
   seeRange: { en: "See the range", te: "ఉత్పత్తులు చూడండి" },
   whatWeSupply: { en: "What we supply", te: "మేము సరఫరా చేసేవి" },
