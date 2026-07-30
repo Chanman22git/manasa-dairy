@@ -35,6 +35,29 @@ npm run build    # → dist/
 | `--muted` darkened `#6F7F6C` → `#63715F` | The handoff value gives only 3.84:1 on paper at the 11–13px it is used for. `#63715F` reaches 4.66:1 (WCAG AA) in the same hue family. |
 | Several low-alpha whites raised (`.45→.62`, `.6/.62/.66→.75`) | Same reason — all were under 4.5:1 on the green bands. |
 
+## Two-layer pages
+
+Every page is two stacked layers, set up once in `src/App.jsx`:
+
+| Layer | Element | Role |
+|---|---|---|
+| 1 — back | `.backdrop` (`src/backdrop.jsx`) | Fixed, full-viewport, `z-index: 0`, `pointer-events: none`. **Currently plain white; this is where the animation goes.** |
+| 2 — front | `.layer-content` | `position: relative; z-index: 1`. Header, main and footer all live here. |
+
+**To add the background animation**, put it inside `<div className="backdrop-stage">`
+in `src/backdrop.jsx`. The stage is already full-bleed, behind the content, and
+pointer-transparent, so a canvas / SVG / WebGL / Motion tree needs no extra plumbing.
+Two things to remember:
+
+- Gate it on `useReducedMotion()` and render a still frame when motion is reduced.
+- The green bands, cards and footer are **opaque**, so the backdrop only shows through
+  the neutral areas. Make those surfaces translucent if you want the animation visible
+  behind them too.
+
+The backdrop colour is the `--backdrop` token in `src/index.css` (one value to change).
+Note this replaces the handoff's `--paper` `#F5F3ED` as the page surface — set
+`--backdrop: #f5f3ed` to go back to the specified cream.
+
 ## Header
 
 The top bar follows the "Simple Light" treatment from

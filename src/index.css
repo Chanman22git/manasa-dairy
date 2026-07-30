@@ -20,6 +20,11 @@
      while staying in the same hue family. */
   --muted: #63715f;
 
+  /* The backdrop layer's colour. White for now; this is the one value to
+     change (or drop the animation over) — see src/backdrop.jsx.
+     Note: this replaces the handoff's --paper #F5F3ED as the page surface. */
+  --backdrop: #ffffff;
+
   /* Type */
   --display: "Instrument Serif", Georgia, serif;
   --ui: "Karla", ui-sans-serif, system-ui, sans-serif;
@@ -45,10 +50,37 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--paper);
+  /* the backdrop layer paints the page surface — see .backdrop below */
+  background: var(--backdrop);
   font-size: 16px;
   line-height: 1.65;
   overflow-x: hidden;
+}
+
+/* ============================================================
+   Two-layer page: .backdrop (animation) → .layer-content (everything)
+   ============================================================ */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--backdrop);
+  pointer-events: none;
+  /* isolate so anything painted inside can't escape this layer */
+  overflow: hidden;
+  isolation: isolate;
+}
+/* full-bleed stage for the animation; already behind content */
+.backdrop-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.layer-content {
+  position: relative;
+  z-index: 1;
 }
 
 /* film grain — atmosphere without imagery */
@@ -493,7 +525,8 @@ main { padding-top: calc(66px + 10px); }
   position: absolute;
   left: -56px;
   bottom: 44px;
-  background: var(--paper);
+  /* the page surface punching over the photo — follows the backdrop */
+  background: var(--backdrop);
   padding: 26px 30px;
   max-width: 250px;
   border-left: 2px solid var(--g-accent);

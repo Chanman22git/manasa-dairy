@@ -7,6 +7,7 @@ import { AnimatePresence } from "motion/react";
 import {
   Cursor, Footer, Header, LangProvider, PageShell, ScrollRail,
 } from "./ui.jsx";
+import Backdrop from "./backdrop.jsx";
 
 import Home from "./pages/Home.jsx";
 import Products from "./pages/Products.jsx";
@@ -51,11 +52,15 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <LangProvider>
-        <Cursor />
-        <ScrollRail />
-        <Header />
-        <main><Routed /></main>
-        <Footer />
+        {/* two layers: the backdrop, then everything else on top of it */}
+        <Backdrop />
+        <div className="layer-content">
+          <Cursor />
+          <ScrollRail />
+          <Header />
+          <main><Routed /></main>
+          <Footer />
+        </div>
       </LangProvider>
     </BrowserRouter>
   );
