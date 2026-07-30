@@ -1,11 +1,11 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import { Reveal, SplitLine, SplitReveal, useLang, EASE } from "../ui.jsx";
+import { Reveal, SplitLine, SplitReveal, useLang, useT, useTx, EASE } from "../ui.jsx";
 import Shot from "../shot.jsx";
 import { PROTOCOL, PLANTS, CERTS, T } from "../data.js";
 
 /* protocol rows draw a vertical progress line as you scroll past them */
-function ProtocolList({ still }) {
+function ProtocolList({ still, te, tt }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -36,8 +36,8 @@ function ProtocolList({ still }) {
           <div className="prot-row">
             <div className="n">{p.n}</div>
             <div>
-              <h3>{p.t}</h3>
-              <p>{p.d}</p>
+              <h3 className={te}>{tt(p.t)}</h3>
+              <p className={te}>{tt(p.d)}</p>
             </div>
           </div>
         </Reveal>
@@ -49,20 +49,19 @@ function ProtocolList({ still }) {
 export default function Quality() {
   const reduce = useReducedMotion();
   const { lang } = useLang();
+  const t = useT();
+  const tt = useTx();
+  const te = lang === "te" ? "te" : "";
 
   return (
     <>
       <section className="wrap phead">
-        <span className="eyebrow">Quality &amp; manufacturing</span>
-        <h1 key={lang} className={lang === "te" ? "te" : undefined} style={{ maxWidth: 900 }}>
+        <span className={`eyebrow ${te}`}>{t("qualityEyebrow")}</span>
+        <h1 key={lang} className={te} style={{ maxWidth: 900 }}>
           <SplitLine text={T.qualityH1[lang]} delay={0.1} />
         </h1>
         <Reveal delay={0.35}>
-          <p className="intro">
-            Every can is tested at the collection point, again at the dock, and a retained
-            sample from each batch is held for the full shelf life. Rejected milk is paid
-            for and returned — the farmer is never penalised for our standard.
-          </p>
+          <p className={`intro ${te}`}>{t("qualityIntro")}</p>
         </Reveal>
       </section>
 
@@ -75,10 +74,12 @@ export default function Quality() {
       <section className="wrap sec">
         <div className="qgrid">
           <div className="qsticky">
-            <span className="eyebrow">Nineteen checks</span>
-            <h2><SplitReveal text="The protocol, stage by stage" /></h2>
+            <span className={`eyebrow ${te}`}>{t("nineteenChecks")}</span>
+            <h2 className={te} key={lang}>
+              <SplitReveal text={t("protocolH2")} />
+            </h2>
           </div>
-          <ProtocolList still={reduce} />
+          <ProtocolList still={reduce} te={te} tt={tt} />
         </div>
       </section>
 
@@ -86,8 +87,14 @@ export default function Quality() {
         <div className="wrap">
           <div className="head head-dark">
             <div>
-              <Reveal><span className="eyebrow" style={{ color: "var(--mint)" }}>Capacity</span></Reveal>
-              <h2><SplitReveal text="Plants &amp; capacity" /></h2>
+              <Reveal>
+                <span className={`eyebrow ${te}`} style={{ color: "var(--mint)" }}>
+                  {t("capacity")}
+                </span>
+              </Reveal>
+              <h2 className={te} key={lang}>
+                <SplitReveal text={t("plantsH2")} />
+              </h2>
             </div>
           </div>
 
@@ -101,12 +108,21 @@ export default function Quality() {
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.7, delay: i * 0.1, ease: EASE }}
               >
-                <h3>{p.name}</h3>
-                <div className="since">{p.since}</div>
+                <h3 className={te}>{lang === "te" ? p.teName : p.name}</h3>
+                <div className={`since ${te}`}>{tt(p.since)}</div>
                 <dl>
-                  <div className="r"><dt>Capacity</dt><dd>{p.cap}</dd></div>
-                  <div className="r"><dt>Lines</dt><dd>{p.lines}</dd></div>
-                  <div className="r"><dt>Cold store</dt><dd>{p.cold}</dd></div>
+                  <div className="r">
+                    <dt className={te}>{t("capacityLabel")}</dt>
+                    <dd className={te}>{tt(p.cap)}</dd>
+                  </div>
+                  <div className="r">
+                    <dt className={te}>{t("linesLabel")}</dt>
+                    <dd className={te}>{tt(p.lines)}</dd>
+                  </div>
+                  <div className="r">
+                    <dt className={te}>{t("coldStoreLabel")}</dt>
+                    <dd>{p.cold}</dd>
+                  </div>
                 </dl>
               </motion.div>
             ))}
@@ -116,7 +132,7 @@ export default function Quality() {
             {CERTS.map((c, i) => (
               <Reveal key={c.n} delay={i * 0.08} className="cert">
                 <div className="n">{c.n}</div>
-                <div className="d">{c.d}</div>
+                <div className={`d ${te}`}>{tt(c.d)}</div>
               </Reveal>
             ))}
           </div>

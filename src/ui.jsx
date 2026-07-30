@@ -8,7 +8,7 @@ import {
   useReducedMotion, useSpring, useScroll, useTransform,
 } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
-import { CowMark, Arrow } from "./art.jsx";
+import { Arrow } from "./art.jsx";
 import { T, PHONE } from "./data.js";
 
 export const EASE = [0.22, 1, 0.36, 1];
@@ -27,16 +27,33 @@ export function LangProvider({ children }) {
   return <LangCtx.Provider value={{ lang, setLang }}>{children}</LangCtx.Provider>;
 }
 
+/** Unwrap an { en, te } pair for a language; plain strings pass through. */
+export function tx(v, lang) {
+  if (v && typeof v === "object" && "en" in v) return v[lang] ?? v.en;
+  return v;
+}
+
 /** Translated string for a key in data.T */
 export function Tr({ k }) {
   const { lang } = useLang();
   const v = T[k];
   if (!v) return null;
-  return <span className={lang === "te" ? "te" : undefined}>{v[lang]}</span>;
+  return <span className={lang === "te" ? "te" : undefined}>{v[lang] ?? v.en}</span>;
 }
+
+/** t(key) for data.T lookups; tt(value) for inline { en, te } pairs. */
 export function useT() {
   const { lang } = useLang();
-  return (k) => (T[k] ? T[k][lang] : "");
+  return (k) => (T[k] ? T[k][lang] ?? T[k].en : "");
+}
+export function useTx() {
+  const { lang } = useLang();
+  return (v) => tx(v, lang);
+}
+/** Adds the Telugu font class only when Telugu is showing. */
+export function useTeClass() {
+  const { lang } = useLang();
+  return (extra = "") => `${extra} ${lang === "te" ? "te" : ""}`.trim();
 }
 
 /* ---------------- reveal helpers ---------------- */
@@ -240,13 +257,17 @@ export function Btn({ to, href, children, variant = "solid", onClick, type }) {
 
 /* ---------------- section heading ---------------- */
 export function Head({ eyebrow, title, right, dark }) {
+  const { lang } = useLang();
+  const te = lang === "te" ? "te" : "";
   return (
     <div className={`head ${dark ? "head-dark" : ""}`}>
       <div>
-        <Reveal><span className="eyebrow">{eyebrow}</span></Reveal>
-        <h2><SplitReveal text={title} delay={0.08} /></h2>
+        <Reveal><span className={`eyebrow ${te}`}>{tx(eyebrow, lang)}</span></Reveal>
+        <h2 className={te} key={lang}>
+          <SplitReveal text={tx(title, lang)} delay={0.08} />
+        </h2>
       </div>
-      {right && <Reveal delay={0.15} className="head-right">{right}</Reveal>}
+      {right && <Reveal delay={0.15} className={`head-right ${te}`}>{right}</Reveal>}
     </div>
   );
 }
@@ -261,6 +282,7 @@ const NAV = [
 
 export function Header() {
   const { lang, setLang } = useLang();
+  const t = useT();
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -283,19 +305,19 @@ export function Header() {
       {/* floating translucent bar */}
       <div className="hdr-shell">
         <div className="hdr-in">
-          <Link to="/" className="lockup" aria-label="Manasa Dairy, home">
+          <Link to="/" className="lockup" aria-label={t("homeLink")}>
             <span className="lockup-mark">
               {/* BASE_URL, not "/" — the site is served from a repo subpath */}
               <img
                 src={`${import.meta.env.BASE_URL}manasa-logo.jpeg`}
                 alt=""
-                width="44"
-                height="44"
+                width="60"
+                height="60"
               />
             </span>
-            <span className="lockup-txt">
-              <span className="l1">Taste the best</span>
-              <span className="l2">EST. 1998 · TELANGANA</span>
+            <span className={`lockup-txt ${lang === "te" ? "te" : ""}`}>
+              <span className="l1"><Tr k="tasteTheBest" /></span>
+              <span className="l2"><Tr k="estTelangana" /></span>
             </span>
           </Link>
 
@@ -312,7 +334,7 @@ export function Header() {
           </nav>
 
           <div className="hdr-right">
-            <div className="pill" role="group" aria-label="Language">
+            <div className="pill" role="group" aria-label={t("language")}>
               <button
                 className={lang === "en" ? "on" : ""}
                 onClick={() => setLang("en")}
@@ -331,7 +353,7 @@ export function Header() {
               className="burger"
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
-              aria-label={open ? "Close menu" : "Open menu"}
+              aria-label={open ? t("closeMenu") : t("openMenu")}
             >
               <span /><span />
             </button>
@@ -357,37 +379,48 @@ export function Header() {
 
 /* ---------------- footer ---------------- */
 export function Footer() {
+  const { lang } = useLang();
+  const t = useT();
+  // scope the Telugu font to Telugu text only — a blanket .te would also
+  // restyle the Latin phone number and licence codes
+  const te = lang === "te" ? "te" : "";
   return (
     <footer className="ftr">
       <div className="ftr-in">
         <div className="ftr-grid">
           <div className="ftr-brand">
-            <CowMark className="ftr-mark" aria-hidden="true" />
-            <p className="ftr-name">Manasa Dairy</p>
-            <p className="ftr-addr">Toopran, Medak District,<br />Telangana 502334</p>
+            <Link to="/" className="ftr-logo" aria-label={t("homeLink")}>
+              <img
+                src={`${import.meta.env.BASE_URL}manasa-logo.jpeg`}
+                alt="Manasa Dairy"
+                width="104"
+                height="104"
+              />
+            </Link>
+            <p className={`ftr-addr ${te}`}>{t("ftrAddress")}</p>
           </div>
           <div className="ftr-col">
-            <h4>Range</h4>
-            <Link to="/products">Milk</Link>
-            <Link to="/products">Ghee</Link>
-            <Link to="/products">Fresh dairy</Link>
+            <h4><Tr k="ftrRange" /></h4>
+            <Link to="/products"><Tr k="ftrMilk" /></Link>
+            <Link to="/products"><Tr k="ftrGhee" /></Link>
+            <Link to="/products"><Tr k="ftrFresh" /></Link>
           </div>
           <div className="ftr-col">
-            <h4>Company</h4>
-            <Link to="/story">Our story</Link>
-            <Link to="/quality">Quality &amp; plants</Link>
-            <Link to="/contact">Contact</Link>
+            <h4><Tr k="ftrCompany" /></h4>
+            <Link to="/story"><Tr k="ftrOurStory" /></Link>
+            <Link to="/quality"><Tr k="ftrQualityPlants" /></Link>
+            <Link to="/contact"><Tr k="ftrContact" /></Link>
           </div>
           <div className="ftr-col">
-            <h4>Trade</h4>
-            <Link to="/enquiry">Bulk enquiry</Link>
-            <Link to="/enquiry">Become a distributor</Link>
+            <h4><Tr k="ftrTrade" /></h4>
+            <Link to="/enquiry"><Tr k="ftrBulk" /></Link>
+            <Link to="/enquiry"><Tr k="ftrDistributor" /></Link>
             <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
           </div>
         </div>
         <div className="ftr-bot">
-          <span>© 2026 Manasa Dairy Products Pvt. Ltd.</span>
-          <span>FSSAI 10014042000123 · ISO 22000:2018</span>
+          <span className={te}>{t("ftrCopyright")}</span>
+          <span>{t("ftrLicences")}</span>
         </div>
       </div>
     </footer>

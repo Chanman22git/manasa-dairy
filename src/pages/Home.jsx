@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import {
-  Btn, Counter, Head, Reveal, SplitLine, SplitReveal, Tr, useLang, EASE,
+  Btn, Counter, Head, Reveal, SplitLine, SplitReveal, Tr, useLang, useT, useTx, EASE,
 } from "../ui.jsx";
 import { Arrow } from "../art.jsx";
 import Shot from "../shot.jsx";
@@ -40,6 +40,9 @@ function Pipeline({ still }) {
 export default function Home() {
   const reduce = useReducedMotion();
   const { lang } = useLang();
+  const t = useT();
+  const tt = useTx();
+  const te = lang === "te" ? "te" : "";
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const artY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -90]);
@@ -51,10 +54,10 @@ export default function Home() {
   ];
   const marqGroup = (
     <div className="marq-group" style={{ display: "flex" }} aria-hidden="true">
-      {marqItems.map((t, i) => (
-        <span key={`${t}-${i}`}>
+      {marqItems.map((s, i) => (
+        <span key={`${s}-${i}`}>
           <i />
-          <span className={/[ఀ-౿]/.test(t) ? "te" : undefined}>{t}</span>
+          <span className={/[ఀ-౿]/.test(s) ? "te" : undefined}>{s}</span>
         </span>
       ))}
     </div>
@@ -67,30 +70,28 @@ export default function Home() {
         <div className="wrap hero-grid">
           <div>
             <motion.span
-              className="eyebrow"
+              className={`eyebrow ${te}`}
               initial={reduce ? false : { opacity: 0, x: -14 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: EASE }}
             >
-              Institutional dairy supply · Telangana
+              {t("heroEyebrow")}
             </motion.span>
 
-            <h1 key={lang}>
+            <h1 key={lang} className={te}>
               <SplitLine text={T.homeH1a[lang]} delay={0.15} />
-              <span className={`em ${lang === "te" ? "te" : ""}`}>
+              <span className="em">
                 <SplitLine text={T.homeH1b[lang]} delay={0.45} />
               </span>
             </h1>
 
             <motion.p
-              className="hero-lede"
+              className={`hero-lede ${te}`}
               initial={reduce ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7, ease: EASE }}
             >
-              Twenty-eight years of collection from 4,200 farmer households across Medak
-              and Siddipet — processed, tested and cold-chained for hotels, bakeries and
-              sweet houses that cannot afford a variable batch.
+              {t("heroLede")}
             </motion.p>
 
             <motion.div
@@ -113,7 +114,7 @@ export default function Home() {
               transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
             >
               <div className="n"><Counter to={4200} /></div>
-              <div className="l">farmer households</div>
+              <div className={`l ${te}`}>{t("farmerHouseholds")}</div>
             </motion.div>
           </motion.div>
         </div>
@@ -131,13 +132,13 @@ export default function Home() {
       <section className="stats">
         <div className="wrap stats-in">
           {STATS.map((s, i) => (
-            <Reveal key={s.k} delay={i * 0.08} className="stat">
+            <Reveal key={s.v} delay={i * 0.08} className="stat">
               <div className="v">
                 {s.n === 1.8
                   ? <Counter to={1.8} decimals={1} suffix=" L" />
-                  : <Counter to={s.n} suffix={s.suffix} />}
+                  : <Counter to={s.n} suffix={tt(s.suffix)} />}
               </div>
-              <div className="k">{s.k}</div>
+              <div className={`k ${te}`}>{tt(s.k)}</div>
               <motion.div
                 className="stat-bar"
                 initial={reduce ? false : { scaleX: 0 }}
@@ -154,28 +155,26 @@ export default function Home() {
       <section className="sec">
         <div className="wrap">
           <Head
-            eyebrow="Three lines"
+            eyebrow={T.threeLines}
             title={T.whatWeSupply[lang]}
-            right={<Link to="/products">All 9 SKUs →</Link>}
+            right={<Link to="/products">{t("allNineSkus")}</Link>}
           />
           <div className="cats">
-            {CATS.map((c, i) => {
-              return (
-                <Reveal key={c.key} delay={i * 0.12}>
-                  <Link to="/products" className="cat">
-                    <div className="cat-art">
-                      <Shot slot={`md-cat-${c.key}`} ratio="4 / 5" plainCredit />
-                    </div>
-                    <div className="cat-name">
-                      <h3>{c.name}</h3>
-                      <span className="te">{c.te}</span>
-                    </div>
-                    <p>{c.blurb}</p>
-                    <div className="skus">{c.skus}</div>
-                  </Link>
-                </Reveal>
-              );
-            })}
+            {CATS.map((c, i) => (
+              <Reveal key={c.key} delay={i * 0.12}>
+                <Link to="/products" className="cat">
+                  <div className="cat-art">
+                    <Shot slot={`md-cat-${c.key}`} ratio="4 / 5" plainCredit />
+                  </div>
+                  <div className="cat-name">
+                    <h3 className={te}>{tt(c.name)}</h3>
+                    {lang === "en" && <span className="te">{c.te}</span>}
+                  </div>
+                  <p className={te}>{tt(c.blurb)}</p>
+                  <div className={`skus ${te}`}>{tt(c.skus)}</div>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -185,22 +184,14 @@ export default function Home() {
         <div className="wrap split">
           <Shot slot="md-story" ratio="4 / 5" parallax={28} />
           <div>
-            <Reveal><span className="eyebrow">Our story</span></Reveal>
-            <h2>
-              <SplitReveal text="Two cans of milk, one bicycle, and a route that never missed a morning." />
+            <Reveal><span className={`eyebrow ${te}`}>{t("ourStory")}</span></Reveal>
+            <h2 className={te} key={lang}>
+              <SplitReveal text={t("homeStoryH2")} />
             </h2>
             <Reveal delay={0.1}>
-              <p>
-                Manasa began in 1998 in Toopran, buying from eleven households and selling
-                to the tea shops on the highway. The rule then is the rule now: pay the
-                farmer the same day, and refuse the can that fails the test — however
-                short the morning.
-              </p>
-              <p>
-                Today three plants run the same discipline at 1.8 lakh litres a day, and
-                the chefs who buy from us have, in many cases, been buying for a decade.
-              </p>
-              <Btn to="/story" variant="line">Read the full story</Btn>
+              <p className={te}>{t("homeStoryP1")}</p>
+              <p className={te}>{t("homeStoryP2")}</p>
+              <Btn to="/story" variant="line"><Tr k="readFullStory" /></Btn>
             </Reveal>
           </div>
         </div>
@@ -211,9 +202,9 @@ export default function Home() {
         <div className="wrap">
           <Head
             dark
-            eyebrow="The route"
+            eyebrow={T.theRoute}
             title={T.processH2[lang]}
-            right={<Link to="/quality">Quality protocol →</Link>}
+            right={<Link to="/quality">{t("qualityProtocolLink")}</Link>}
           />
           <Pipeline still={reduce} />
           <div className="proc-grid">
@@ -221,8 +212,8 @@ export default function Home() {
               <Reveal key={s.n} delay={i * 0.1}>
                 <div className="proc-cell">
                   <div className="n">{s.n}</div>
-                  <h3>{s.t}</h3>
-                  <p>{s.d}</p>
+                  <h3 className={te}>{tt(s.t)}</h3>
+                  <p className={te}>{tt(s.d)}</p>
                 </div>
               </Reveal>
             ))}
@@ -236,19 +227,17 @@ export default function Home() {
           <Reveal>
             <div className="enq-band">
               <div>
-                <span className="eyebrow">For hotels, bakeries, sweet houses and caterers</span>
-                <h2>
-                  <SplitReveal text="Tell us your daily volume. We'll send a rate card in two working days." />
+                <span className={`eyebrow ${te}`}>{t("enqEyebrow")}</span>
+                <h2 className={te} key={lang}>
+                  <SplitReveal text={t("enqBandH2")} />
                 </h2>
-                <p>
-                  Contract pricing, dedicated route slots, and a named account manager from
-                  the first delivery. Minimum order 50 litres or equivalent.
-                </p>
+                <p className={te}>{t("enqBandP")}</p>
               </div>
               <div className="enq-side">
-                <Btn to="/enquiry" variant="solid">Start a bulk enquiry</Btn>
-                <span className="call">
-                  or call <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
+                <Btn to="/enquiry" variant="solid"><Tr k="startEnquiry" /></Btn>
+                <span className={`call ${te}`}>
+                  {t("orCall")}{" "}
+                  <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
                 </span>
               </div>
             </div>

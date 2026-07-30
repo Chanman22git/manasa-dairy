@@ -20,8 +20,7 @@ npm run build    # → dist/
   entry and office is verbatim from the handoff (`src/data.js`).
 - **Six routes** — `/`, `/products`, `/quality`, `/story`, `/enquiry`, `/contact`,
   as the handoff specifies (not the prototype's client-side page switching).
-- **EN / తెలుగు toggle** — swaps nav, page H1s, section headings and CTAs only; body
-  copy stays English by design. Persisted to `localStorage`.
+- **EN / తెలుగు toggle** — persisted to `localStorage`. See the i18n note below.
 - **Layout constants** — 1320px container, 56px gutters, 82px sticky header, 0 radius
   (except the language pill), no shadows — depth comes from hairlines and card fills.
 
@@ -34,6 +33,35 @@ npm run build    # → dist/
 | Seven of the handoff's photo placeholders replaced (see below) | The originals showed the wrong product, a competitor's branding, or a supermarket shelf. |
 | `--muted` darkened `#6F7F6C` → `#63715F` | The handoff value gives only 3.84:1 on paper at the 11–13px it is used for. `#63715F` reaches 4.66:1 (WCAG AA) in the same hue family. |
 | Several low-alpha whites raised (`.45→.62`, `.6/.62/.66→.75`) | Same reason — all were under 4.5:1 on the green bands. |
+
+## Telugu — NEEDS A NATIVE REVIEW
+
+⚠️ **The Telugu was written during development and has not been reviewed by a native
+speaker. Get it checked before launch.** The technical dairy vocabulary (SNF, MBRT,
+HTST, CIP, granular ghee, clot-on-boiling) and the marketing register in particular
+deserve a careful read.
+
+The handoff scoped the toggle to nav, H1s, section headings and CTAs only, with body
+copy staying English. That has been **extended to the whole site** on request: every
+heading, paragraph, product spec, protocol step, plant, timeline entry, office, form
+label, dropdown option, placeholder and footer link now switches.
+
+Deliberately **not** translated:
+
+- postal addresses (delivery data — couriers and Maps need them literal)
+- phone numbers, email, licence numbers, and standard names (FSSAI, ISO 22000:2018,
+  AGMARK, NABL)
+- units and measurement tokens (`%`, `ml`, `L`, `kg`, `MT`, `°C`, SNF, MBRT, HTST, CIP)
+- Unsplash photographer credits
+
+### How it works
+
+Every string in `src/data.js` is an `{ en, te }` pair. Render it with `useTx()` (for
+inline values) or `useT()` (for keys in the `T` map), both from `ui.jsx`; plain strings
+pass through untouched, so a missing `te` degrades to English rather than breaking.
+
+The Telugu font is applied with a `.te` class scoped to Telugu text only — never to a
+whole region, or Latin phone numbers and licence codes would get restyled too.
 
 ## Two-layer pages
 
