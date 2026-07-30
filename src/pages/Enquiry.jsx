@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Btn, Reveal, SplitLine, useLang, useT, useTx, EASE } from "../ui.jsx";
 import { Check } from "../art.jsx";
-import { BUSINESS_TYPES, NEXT_STEPS, PHONE, EMAIL, T } from "../data.js";
+import { BUSINESS_TYPES, NEXT_STEPS, PHONE, PHONE_TEL, EMAIL, T } from "../data.js";
 
 const REQUIRED = ["business", "person", "phone"];
 
@@ -75,7 +75,7 @@ export default function Enquiry() {
               <h2 className={te}>{t("sentH2")}</h2>
               <p className={te}>
                 {t("sentPa")}{" "}
-                <a href={`tel:${PHONE.replace(/\s/g, "")}`} style={{ color: "var(--g-accent)" }}>{PHONE}</a>.
+                <a href={`tel:${PHONE_TEL}`} style={{ color: "var(--g-accent)" }}>{PHONE}</a>.
               </p>
             </motion.div>
           ) : (
@@ -128,7 +128,7 @@ export default function Enquiry() {
             </ol>
             <div className="direct">
               <div className={`lbl ${te}`}>{t("reachDirectly")}</div>
-              <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
+              <a href={`tel:${PHONE_TEL}`}>{PHONE}</a>
               <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </div>
           </aside>

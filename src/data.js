@@ -13,8 +13,17 @@
  * see the note in README.md.
  */
 
-export const PHONE = "+91 91210 02228";
-export const EMAIL = "sales@manasadairy.com";
+/* Client-supplied contact details (authoritative).
+   Address is kept in the client's own capitalisation, verbatim. */
+export const PHONE = "+91 70329 96099";
+export const PHONE_TEL = "+917032996099";
+export const EMAIL = "info@manasadairy.com";
+export const ADDRESS_LINES = [
+  "PLOT NO:76, SY NO:1109/E,",
+  "UPPARIGUDA (V), IBRAHIMPATNAM (M),",
+  "R.R DIST",
+];
+export const ADDRESS = ADDRESS_LINES.join(" ");
 
 export const STATS = [
   { v: "1.8 L", k: { en: "litres processed daily", te: "రోజుకు ప్రాసెస్ చేసే లీటర్లు" }, n: 1.8, suffix: " L" },
@@ -232,32 +241,22 @@ export const PROTOCOL = [
   },
 ];
 
-export const PLANTS = [
-  {
-    name: "Toopran",
-    teName: "తూప్రాన్",
-    since: { en: "Commissioned 2004", te: "2004లో ప్రారంభం" },
-    cap: { en: "90,000 L/day", te: "90,000 L/రోజు" },
-    lines: { en: "Milk · Curd", te: "పాలు · పెరుగు" },
-    cold: "120 MT",
-  },
-  {
-    name: "Siddipet",
-    teName: "సిద్దిపేట",
-    since: { en: "Commissioned 2013", te: "2013లో ప్రారంభం" },
-    cap: { en: "60,000 L/day", te: "60,000 L/రోజు" },
-    lines: { en: "Milk · Paneer · Butter", te: "పాలు · పనీర్ · వెన్న" },
-    cold: "80 MT",
-  },
-  {
-    name: "Gajwel",
-    teName: "గజ్వేల్",
-    since: { en: "Commissioned 2021", te: "2021లో ప్రారంభం" },
-    cap: { en: "30,000 L/day", te: "30,000 L/రోజు" },
-    lines: { en: "Ghee · Packing", te: "నెయ్యి · ప్యాకింగ్" },
-    cold: "45 MT",
-  },
-];
+/* PLANTS — intentionally empty.
+ *
+ * The handoff listed three plants (Toopran, Siddipet, Gajwel) with capacities,
+ * production lines and cold-store tonnages. All three were named after the
+ * districts the client has since told us to drop, which makes the capacities
+ * attached to them unverified too. Rather than invent replacements, the block
+ * is empty and the Quality page hides the whole section while it stays empty.
+ *
+ * To restore it, add entries in this shape — the page picks them up as-is:
+ *   { name: "…", teName: "…",
+ *     since: { en: "Commissioned 20XX", te: "20XXలో ప్రారంభం" },
+ *     cap:   { en: "00,000 L/day",      te: "00,000 L/రోజు" },
+ *     lines: { en: "Milk · Curd",       te: "పాలు · పెరుగు" },
+ *     cold:  "000 MT" }
+ */
+export const PLANTS = [];
 
 export const CERTS = [
   { n: "FSSAI", d: { en: "Licence 10014042000123", te: "లైసెన్స్ 10014042000123" } },
@@ -270,54 +269,45 @@ export const TIMELINE = [
   {
     y: "1998",
     d: {
-      en: "K. Rajeshwar Rao begins collecting from eleven households in Toopran and selling to highway tea shops.",
-      te: "కె. రాజేశ్వర్ రావు తూప్రాన్‌లో పదకొండు కుటుంబాల నుండి పాలు సేకరించి, హైవే టీ దుకాణాలకు అమ్మడం ప్రారంభించారు.",
+      en: "K. Rajeshwar Rao begins collecting from eleven households and selling to highway tea shops.",
+      te: "కె. రాజేశ్వర్ రావు పదకొండు కుటుంబాల నుండి పాలు సేకరించి, హైవే టీ దుకాణాలకు అమ్మడం ప్రారంభించారు.",
     },
   },
   {
     y: "2004",
     d: {
-      en: "First processing plant commissioned. Pouch milk reaches Hyderabad wholesale for the first time.",
-      te: "మొదటి ప్రాసెసింగ్ ప్లాంట్ ప్రారంభం. పౌచ్ పాలు తొలిసారి హైదరాబాద్ హోల్‌సేల్ మార్కెట్‌కు చేరాయి.",
+      en: "First processing plant commissioned. Pouch milk reaches the wholesale market for the first time.",
+      te: "మొదటి ప్రాసెసింగ్ ప్లాంట్ ప్రారంభం. పౌచ్ పాలు తొలిసారి హోల్‌సేల్ మార్కెట్‌కు చేరాయి.",
     },
   },
   {
     y: "2013",
     d: {
-      en: "Siddipet plant opens with a dedicated paneer line after demand from hotel kitchens.",
-      te: "హోటల్ వంటశాలల డిమాండ్ మేరకు, ప్రత్యేక పనీర్ లైన్‌తో సిద్దిపేట ప్లాంట్ ప్రారంభం.",
+      en: "A dedicated paneer line opens after demand from hotel kitchens.",
+      te: "హోటల్ వంటశాలల డిమాండ్ మేరకు ప్రత్యేక పనీర్ లైన్ ప్రారంభం.",
     },
   },
   {
     y: "2021",
     d: {
-      en: "Gajwel ghee unit and a 46-cooler collection network bring daily intake past 1.8 lakh litres.",
-      te: "గజ్వేల్ నెయ్యి యూనిట్, 46 కూలర్ల సేకరణ నెట్‌వర్క్‌తో రోజువారీ సేకరణ 1.8 లక్షల లీటర్లు దాటింది.",
+      en: "A new ghee unit and a 46-cooler collection network bring daily intake past 1.8 lakh litres.",
+      te: "కొత్త నెయ్యి యూనిట్, 46 కూలర్ల సేకరణ నెట్‌వర్క్‌తో రోజువారీ సేకరణ 1.8 లక్షల లీటర్లు దాటింది.",
     },
   },
 ];
 
+/* One office — the client-supplied address. The handoff's other two entries
+   (a Hyderabad sales floor and a Siddipet plant desk) came with their own
+   invented addresses and phone numbers, so they are gone rather than guessed at.
+   Add more entries here and the Contact page lays them out automatically. */
 export const OFFICES = [
   {
     kind: { en: "Head office", te: "ప్రధాన కార్యాలయం" },
-    city: "Toopran", teCity: "తూప్రాన్",
-    addr: "Plot 14, Industrial Area, Toopran, Medak District, Telangana 502334",
-    phone: "+91 91210 02228",
-    hours: { en: "Mon–Sat, 8 a.m. – 7 p.m.", te: "సోమ–శని, ఉదయం 8 – సాయంత్రం 7" },
-  },
-  {
-    kind: { en: "Sales & trade", te: "సేల్స్ & ట్రేడ్" },
-    city: "Hyderabad", teCity: "హైదరాబాద్",
-    addr: "3rd Floor, Sri Sai Arcade, Kukatpally, Hyderabad, Telangana 500072",
-    phone: "+91 91210 02229",
-    hours: { en: "Mon–Sat, 9 a.m. – 6 p.m.", te: "సోమ–శని, ఉదయం 9 – సాయంత్రం 6" },
-  },
-  {
-    kind: { en: "Plant enquiries", te: "ప్లాంట్ విచారణలు" },
-    city: "Siddipet", teCity: "సిద్దిపేట",
-    addr: "Survey 221, Ensanpalli Road, Siddipet, Telangana 502103",
-    phone: "+91 91210 02231",
-    hours: { en: "Mon–Sat, 7 a.m. – 5 p.m.", te: "సోమ–శని, ఉదయం 7 – సాయంత్రం 5" },
+    city: { en: "Ibrahimpatnam", te: "ఇబ్రహీంపట్నం" },
+    addrLines: ADDRESS_LINES,
+    phone: PHONE,
+    phoneTel: PHONE_TEL,
+    email: EMAIL,
   },
 ];
 
@@ -353,12 +343,15 @@ export const T = {
   language: { en: "Language", te: "భాష" },
 
   /* home */
-  heroEyebrow: { en: "Institutional dairy supply · Telangana", te: "సంస్థాగత పాల సరఫరా · తెలంగాణ" },
+  heroEyebrow: {
+    en: "Serving Telangana, Andhra Pradesh & Maharashtra",
+    te: "తెలంగాణ, ఆంధ్రప్రదేశ్, మహారాష్ట్రలకు సేవలు",
+  },
   homeH1a: { en: "The purity your kitchen", te: "మీ వంటగదికి" },
   homeH1b: { en: "can count on.", te: "నమ్మకమైన పాల ఉత్పత్తులు." },
   heroLede: {
-    en: "Twenty-eight years of collection from 4,200 farmer households across Medak and Siddipet — processed, tested and cold-chained for hotels, bakeries and sweet houses that cannot afford a variable batch.",
-    te: "మెదక్, సిద్దిపేట జిల్లాల్లోని 4,200 రైతు కుటుంబాల నుండి ఇరవై ఎనిమిదేళ్లుగా సేకరణ — ప్రతి బ్యాచ్ ఒకేలా ఉండాలని కోరుకునే హోటళ్లు, బేకరీలు, స్వీట్ షాపుల కోసం ప్రాసెస్ చేసి, పరీక్షించి, కోల్డ్ చైన్‌లో సరఫరా.",
+    en: "Twenty-eight years of collection from 4,200 farmer households — processed, tested and cold-chained for hotels, bakeries and sweet houses across Telangana, Andhra Pradesh and Maharashtra that cannot afford a variable batch.",
+    te: "4,200 రైతు కుటుంబాల నుండి ఇరవై ఎనిమిదేళ్లుగా సేకరణ — ప్రతి బ్యాచ్ ఒకేలా ఉండాలని కోరుకునే తెలంగాణ, ఆంధ్రప్రదేశ్, మహారాష్ట్రలోని హోటళ్లు, బేకరీలు, స్వీట్ షాపుల కోసం ప్రాసెస్ చేసి, పరీక్షించి, కోల్డ్ చైన్‌లో సరఫరా.",
   },
   rateCard: { en: "Request a rate card", te: "ధరల జాబితా కోరండి" },
   seeRange: { en: "See the range", te: "ఉత్పత్తులు చూడండి" },
@@ -372,8 +365,8 @@ export const T = {
     te: "రెండు పాల క్యాన్లు, ఒక సైకిల్, ఒక్క ఉదయం కూడా తప్పని దారి.",
   },
   homeStoryP1: {
-    en: "Manasa began in 1998 in Toopran, buying from eleven households and selling to the tea shops on the highway. The rule then is the rule now: pay the farmer the same day, and refuse the can that fails the test — however short the morning.",
-    te: "మానస 1998లో తూప్రాన్‌లో మొదలైంది — పదకొండు కుటుంబాల నుండి పాలు కొని, హైవే టీ దుకాణాలకు అమ్మడంతో. అప్పటి నియమమే ఇప్పటికీ: రైతుకు అదే రోజు చెల్లింపు, పరీక్షలో విఫలమైన క్యాన్‌ను తిరస్కరించడం — ఆ ఉదయం ఎంత కొరత ఉన్నా సరే.",
+    en: "Manasa began in 1998, buying from eleven households and selling to the tea shops on the highway. The rule then is the rule now: pay the farmer the same day, and refuse the can that fails the test — however short the morning.",
+    te: "మానస 1998లో మొదలైంది — పదకొండు కుటుంబాల నుండి పాలు కొని, హైవే టీ దుకాణాలకు అమ్మడంతో. అప్పటి నియమమే ఇప్పటికీ: రైతుకు అదే రోజు చెల్లింపు, పరీక్షలో విఫలమైన క్యాన్‌ను తిరస్కరించడం — ఆ ఉదయం ఎంత కొరత ఉన్నా సరే.",
   },
   homeStoryP2: {
     en: "Today three plants run the same discipline at 1.8 lakh litres a day, and the chefs who buy from us have, in many cases, been buying for a decade.",
@@ -424,7 +417,9 @@ export const T = {
   nineteenChecks: { en: "Nineteen checks", te: "పంతొమ్మిది పరీక్షలు" },
   protocolH2: { en: "The protocol, stage by stage", te: "దశలవారీగా మా ప్రమాణాలు" },
   capacity: { en: "Capacity", te: "సామర్థ్యం" },
+  accredited: { en: "Accredited", te: "ధ్రువీకరణలు" },
   plantsH2: { en: "Plants & capacity", te: "ప్లాంట్లు & సామర్థ్యం" },
+  certsH2: { en: "Certified, and audited to prove it", te: "ధ్రువీకరణలు, తనిఖీలతో సహా" },
   capacityLabel: { en: "Capacity", te: "సామర్థ్యం" },
   linesLabel: { en: "Lines", te: "లైన్లు" },
   coldStoreLabel: { en: "Cold store", te: "కోల్డ్ స్టోర్" },
@@ -481,8 +476,8 @@ export const T = {
   contactH1: { en: "Find us", te: "మమ్మల్ని కలవండి" },
   contactEyebrow: { en: "Contact", te: "సంప్రదించండి" },
   beltCaption: {
-    en: "The collection belt — 46 bulk coolers across Medak and Siddipet.",
-    te: "సేకరణ బెల్ట్ — మెదక్, సిద్దిపేట జిల్లాల్లో 46 బల్క్ కూలర్లు.",
+    en: "The collection belt — 46 bulk coolers across the villages we buy from.",
+    te: "సేకరణ బెల్ట్ — మేము పాలు కొనే గ్రామాల్లో 46 బల్క్ కూలర్లు.",
   },
   mapTodo: {
     en: "An interactive map goes here once the plant coordinates are confirmed.",
@@ -502,7 +497,8 @@ export const T = {
   ftrContact: { en: "Contact", te: "సంప్రదించండి" },
   ftrBulk: { en: "Bulk enquiry", te: "బల్క్ ఎంక్వైరీ" },
   ftrDistributor: { en: "Become a distributor", te: "డిస్ట్రిబ్యూటర్ కావాలంటే" },
-  ftrAddress: { en: "Toopran, Medak District,\nTelangana 502334", te: "తూప్రాన్, మెదక్ జిల్లా,\nతెలంగాణ 502334" },
+  /* address is postal data — same literal text in both languages */
+  ftrAddress: { en: ADDRESS_LINES.join("\n"), te: ADDRESS_LINES.join("\n") },
   ftrCopyright: { en: "© 2026 Manasa Dairy Products Pvt. Ltd.", te: "© 2026 మానస డైరీ ప్రొడక్ట్స్ ప్రై. లి." },
   ftrLicences: { en: "FSSAI 10014042000123 · ISO 22000:2018", te: "FSSAI 10014042000123 · ISO 22000:2018" },
 };

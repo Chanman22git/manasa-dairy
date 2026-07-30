@@ -6,7 +6,7 @@ import {
 } from "../ui.jsx";
 import { Arrow } from "../art.jsx";
 import Shot from "../shot.jsx";
-import { CATS, STATS, STEPS, PHONE, T } from "../data.js";
+import { CATS, STATS, STEPS, PHONE, PHONE_TEL, T } from "../data.js";
 
 /* ---- the animated pipeline that heads the process band ---- */
 function Pipeline({ still }) {
@@ -237,7 +237,7 @@ export default function Home() {
                 <Btn to="/enquiry" variant="solid"><Tr k="startEnquiry" /></Btn>
                 <span className={`call ${te}`}>
                   {t("orCall")}{" "}
-                  <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
+                  <a href={`tel:${PHONE_TEL}`}>{PHONE}</a>
                 </span>
               </div>
             </div>

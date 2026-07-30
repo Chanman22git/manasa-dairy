@@ -89,46 +89,50 @@ export default function Quality() {
             <div>
               <Reveal>
                 <span className={`eyebrow ${te}`} style={{ color: "var(--mint)" }}>
-                  {t("capacity")}
+                  {t("accredited")}
                 </span>
               </Reveal>
               <h2 className={te} key={lang}>
-                <SplitReveal text={t("plantsH2")} />
+                <SplitReveal text={t(PLANTS.length ? "plantsH2" : "certsH2")} />
               </h2>
             </div>
           </div>
 
-          <div className="plants">
-            {PLANTS.map((p, i) => (
-              <motion.div
-                key={p.name}
-                className="plant"
-                initial={reduce ? false : { opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: EASE }}
-              >
-                <h3 className={te}>{lang === "te" ? p.teName : p.name}</h3>
-                <div className={`since ${te}`}>{tt(p.since)}</div>
-                <dl>
-                  <div className="r">
-                    <dt className={te}>{t("capacityLabel")}</dt>
-                    <dd className={te}>{tt(p.cap)}</dd>
-                  </div>
-                  <div className="r">
-                    <dt className={te}>{t("linesLabel")}</dt>
-                    <dd className={te}>{tt(p.lines)}</dd>
-                  </div>
-                  <div className="r">
-                    <dt className={te}>{t("coldStoreLabel")}</dt>
-                    <dd>{p.cold}</dd>
-                  </div>
-                </dl>
-              </motion.div>
-            ))}
-          </div>
+          {/* PLANTS is empty until the client supplies verified plant data —
+              see the note in data.js. The block reappears on its own. */}
+          {PLANTS.length > 0 && (
+            <div className="plants">
+              {PLANTS.map((p, i) => (
+                <motion.div
+                  key={p.name}
+                  className="plant"
+                  initial={reduce ? false : { opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.7, delay: i * 0.1, ease: EASE }}
+                >
+                  <h3 className={te}>{lang === "te" ? p.teName : p.name}</h3>
+                  <div className={`since ${te}`}>{tt(p.since)}</div>
+                  <dl>
+                    <div className="r">
+                      <dt className={te}>{t("capacityLabel")}</dt>
+                      <dd className={te}>{tt(p.cap)}</dd>
+                    </div>
+                    <div className="r">
+                      <dt className={te}>{t("linesLabel")}</dt>
+                      <dd className={te}>{tt(p.lines)}</dd>
+                    </div>
+                    <div className="r">
+                      <dt className={te}>{t("coldStoreLabel")}</dt>
+                      <dd>{p.cold}</dd>
+                    </div>
+                  </dl>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
-          <div className="certs">
+          <div className={`certs ${PLANTS.length ? "" : "certs-lead"}`}>
             {CERTS.map((c, i) => (
               <Reveal key={c.n} delay={i * 0.08} className="cert">
                 <div className="n">{c.n}</div>

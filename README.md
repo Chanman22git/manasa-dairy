@@ -1,6 +1,6 @@
 # Manasa Dairy — website
 
-Institutional B2B marketing site for Manasa Dairy (Toopran, Telangana), built from the
+Institutional B2B marketing site for Manasa Dairy (Ibrahimpatnam, R.R. District), built from the
 `design_handoff_manasa_dairy_site` bundle. React + Vite + [Motion](https://motion.dev).
 
 ```bash
@@ -33,6 +33,43 @@ npm run build    # → dist/
 | Seven of the handoff's photo placeholders replaced (see below) | The originals showed the wrong product, a competitor's branding, or a supermarket shelf. |
 | `--muted` darkened `#6F7F6C` → `#63715F` | The handoff value gives only 3.84:1 on paper at the 11–13px it is used for. `#63715F` reaches 4.66:1 (WCAG AA) in the same hue family. |
 | Several low-alpha whites raised (`.45→.62`, `.6/.62/.66→.75`) | Same reason — all were under 4.5:1 on the green bands. |
+
+## Contact details — corrected, and what is still missing
+
+The handoff prototype shipped with **invented contact data**: three offices, three
+different phone numbers, and plants named after Medak and Siddipet districts. The
+client has since confirmed the real details, so all of that is gone.
+
+**Authoritative, set in `src/data.js`:**
+
+```
+PLOT NO:76, SY NO:1109/E, UPPARIGUDA (V), IBRAHIMPATNAM (M), R.R DIST
++91 70329 96099          (tel: link dials +917032996099)
+info@manasadairy.com
+```
+
+The address is stored in the client's own capitalisation and is **not translated** —
+it is postal data. Phone and email are single constants (`PHONE`, `PHONE_TEL`, `EMAIL`),
+so there is exactly one place to change each.
+
+Every reference to **Medak, Siddipet, Toopran, Gajwel and Hyderabad** has been removed
+from copy, alt text, page titles and the meta description. Verified at runtime across
+all six routes.
+
+### Still needs real data
+
+- **Plants.** `PLANTS` in `data.js` is an **empty array**. The handoff's three plants
+  were named after the removed districts, which makes their capacities, production
+  lines and cold-store tonnages unverified too. The Quality page hides that whole block
+  while the array is empty and shows the certifications instead; add entries in the
+  documented shape and the block returns on its own. **Nothing was invented to fill it.**
+- **The certifications are still the handoff's**, including FSSAI licence
+  `10014042000123`. Confirm these against the client's actual licences.
+- **Timeline milestones** kept their years and narrative but lost their place names.
+  Worth a read-through by the client for accuracy.
+- **Service area** is now "Telangana, Andhra Pradesh & Maharashtra" per the client;
+  the older "4,200 farmer households" and "1.8 lakh litres" figures are still the
+  handoff's and have not been confirmed.
 
 ## Telugu — NEEDS A NATIVE REVIEW
 
@@ -127,7 +164,7 @@ Auditing the handoff's placeholders turned up seven that could not ship as-is:
 
 Two known weaknesses left, both needing real photography rather than another swap:
 
-- **`md-story`** is a red North-American barn — wrong region for a Toopran village story.
+- **`md-story`** is a red North-American barn — wrong region for a Telangana village story.
 - **`md-cat-fresh` / `md-p7`** show Adyghe cheese, which resembles paneer but is not it.
 
 The Contact page has no real map. The aerial shot is captioned as the collection belt,

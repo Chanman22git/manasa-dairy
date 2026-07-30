@@ -1,6 +1,6 @@
 import { Btn, Reveal, SplitLine, useLang, useT, useTx } from "../ui.jsx";
 import Shot from "../shot.jsx";
-import { OFFICES, T } from "../data.js";
+import { OFFICES, T, EMAIL } from "../data.js";
 
 export default function Contact() {
   const { lang } = useLang();
@@ -19,17 +19,21 @@ export default function Contact() {
       </section>
 
       <section className="wrap sec">
-        <div className="offices">
+        <div className={`offices ${OFFICES.length === 1 ? "offices-one" : ""}`}>
           {OFFICES.map((o, i) => (
-            <Reveal key={o.city} delay={i * 0.1}>
+            <Reveal key={o.phone} delay={i * 0.1}>
               <article className="office">
                 <div className={`kind ${te}`}>{tt(o.kind)}</div>
-                <h3 className={te}>{lang === "te" ? o.teCity : o.city}</h3>
-                {/* address stays literal — it is postal data */}
-                <p className="addr">{o.addr}</p>
+                <h3 className={te}>{tt(o.city)}</h3>
+                {/* address stays literal in both languages — it is postal data */}
+                <p className="addr">
+                  {o.addrLines.map((line) => (
+                    <span key={line}>{line}<br /></span>
+                  ))}
+                </p>
                 <div className="meta">
-                  <a href={`tel:${o.phone.replace(/\s/g, "")}`}>{o.phone}</a>
-                  <span className={`hrs ${te}`}>{tt(o.hours)}</span>
+                  <a href={`tel:${o.phoneTel}`}>{o.phone}</a>
+                  <a href={`mailto:${o.email}`}>{o.email}</a>
                 </div>
               </article>
             </Reveal>

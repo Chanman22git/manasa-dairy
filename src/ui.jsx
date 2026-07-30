@@ -9,7 +9,7 @@ import {
 } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
 import { Arrow } from "./art.jsx";
-import { T, PHONE } from "./data.js";
+import { T, PHONE, PHONE_TEL } from "./data.js";
 
 export const EASE = [0.22, 1, 0.36, 1];
 
@@ -415,7 +415,7 @@ export function Footer() {
             <h4><Tr k="ftrTrade" /></h4>
             <Link to="/enquiry"><Tr k="ftrBulk" /></Link>
             <Link to="/enquiry"><Tr k="ftrDistributor" /></Link>
-            <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>
+            <a href={`tel:${PHONE_TEL}`}>{PHONE}</a>
           </div>
         </div>
         <div className="ftr-bot">

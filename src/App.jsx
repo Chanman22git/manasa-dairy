@@ -17,7 +17,7 @@ import Enquiry from "./pages/Enquiry.jsx";
 import Contact from "./pages/Contact.jsx";
 
 const TITLES = {
-  "/": "Manasa Dairy — Institutional dairy supply, Telangana",
+  "/": "Manasa Dairy — Institutional dairy supply",
   "/products": "The range — Manasa Dairy",
   "/quality": "Quality & manufacturing — Manasa Dairy",
   "/story": "Our story — Manasa Dairy",

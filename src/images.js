@@ -39,7 +39,7 @@ export const IMAGES = {
   },
   "md-about": {
     src: u("1636998980792-63f27ddea4e3", 1200),
-    alt: "Portrait — founder at the Toopran collection centre.",
+    alt: "Portrait — the founder at a village collection centre.",
     credit: "Photo by Suvrajit S on Unsplash",
     href: "https://unsplash.com/@fotobee",
   },
@@ -53,7 +53,7 @@ export const IMAGES = {
     // handoff placeholder here was a close-up of cattle — it sits under
     // "Find us", where a cow photo reads as a broken map
     src: u("1775119249927-b669c9470bc5", 1600),
-    alt: "Farmland across the Medak and Siddipet collection belt, from above.",
+    alt: "Farmland across the collection belt, from above.",
     credit: "Photo by Barbare Kacharava on Unsplash",
     href: "https://unsplash.com/@babikacharava",
   },

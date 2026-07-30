@@ -816,6 +816,8 @@ main { padding-top: calc(84px + 10px); }
 .plant .r dd { margin: 0; color: var(--paper); text-align: right; }
 
 .certs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 56px; padding-top: 34px; border-top: 1px solid rgba(245, 243, 237, 0.2); }
+/* when there are no plant cards above, the certs are the section's content */
+.certs-lead { margin-top: 0; padding-top: 0; border-top: none; }
 .cert .n { font-family: var(--display); font-size: 24px; color: var(--paper); }
 .cert .d { font-size: 13px; color: rgba(245, 243, 237, 0.75); margin-top: 6px; }
 
@@ -882,6 +884,9 @@ main { padding-top: calc(84px + 10px); }
 
 /* ---------- contact ---------- */
 .offices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+/* a single office shouldn't sit in a lonely third of the row */
+.offices-one { grid-template-columns: minmax(0, 520px); }
+.offices-one .office { padding: 40px 38px 44px; }
 .office { background: var(--card); border: 1px solid var(--line-card); padding: 34px 32px 38px; transition: border-color 0.3s, transform 0.3s; }
 .office:hover { border-color: var(--g-accent); transform: translateY(-4px); }
 .office .kind { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
