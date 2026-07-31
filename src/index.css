@@ -928,7 +928,9 @@ main { padding-top: calc(84px + 10px); }
 
 /* ---------- footer ---------- */
 .ftr { background: var(--g-deepest); color: rgba(245, 243, 237, 0.72); }
-.ftr-in { max-width: var(--maxw); margin-inline: auto; padding: 76px var(--gutter) 44px; }
+/* the bottom padding also buys clearance for the fixed verification
+   floater, which otherwise sits on top of the licence line */
+.ftr-in { max-width: var(--maxw); margin-inline: auto; padding: 76px var(--gutter) 96px; }
 .ftr-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 56px; }
 /* handoff spec: logo 104×104 in the first footer column */
 .ftr-logo {
@@ -969,6 +971,134 @@ main { padding-top: calc(84px + 10px); }
   font-size: 12px;
   color: rgba(245, 243, 237, 0.62);
 }
+
+/* ==========================================================
+   Batch verification — the corner floater and its page
+   ========================================================== */
+.vfl {
+  position: fixed;
+  right: 24px;
+  /* clear of the iOS home indicator and Android gesture bar */
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 160; /* over the page, under the header pill and the scroll rail */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  /* the wrapper is only a positioning frame — it must never swallow clicks
+     meant for the page underneath, which it would otherwise do across its
+     whole box once it spans the viewport on mobile */
+  pointer-events: none;
+}
+.vfl-btn, .vfl-card { pointer-events: auto; }
+
+.vfl-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 20px;
+  border: 1px solid var(--g-accent);
+  border-radius: 999px;
+  background: var(--g-deepest);
+  color: var(--paper);
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, padding 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.vfl-btn:hover { background: var(--g-accent); }
+.vfl-qr { flex: none; }
+
+/* collapsing by max-width keeps the glyph still while the words leave */
+.vfl-label {
+  max-width: 190px;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.25s ease, margin 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.vfl-btn.is-compact { padding: 0 15px; }
+.vfl-btn.is-compact .vfl-label {
+  max-width: 0;
+  opacity: 0;
+  margin-left: -10px;
+}
+.vfl-label.te { text-transform: none; letter-spacing: 0.02em; font-size: 13px; }
+
+.vfl-card {
+  position: relative;
+  width: min(330px, calc(100vw - 48px));
+  padding: 26px 28px 24px;
+  background: var(--card);
+  border: 1px solid var(--line-card);
+  border-top: 2px solid var(--g-accent);
+  transform-origin: 100% 100%;
+}
+.vfl-card h3 {
+  font-family: var(--display);
+  font-size: 25px;
+  line-height: 1.12;
+  margin: 10px 0 8px;
+}
+.vfl-card p { font-size: 14px; line-height: 1.6; color: var(--body); margin-bottom: 18px; }
+.vfl-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--g-accent);
+  border-bottom: 1px solid var(--g-accent);
+  padding-bottom: 4px;
+}
+.vfl-go.te { text-transform: none; letter-spacing: 0.02em; font-size: 14px; }
+.vfl-go:hover { color: var(--g-deepest); border-color: var(--g-deepest); }
+.vfl-x {
+  position: absolute;
+  top: 10px; right: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px; height: 30px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.vfl-x:hover { color: var(--g-deepest); }
+
+/* the page */
+.vsoon { display: grid; grid-template-columns: 92px 1fr; gap: 40px; align-items: start; }
+.vsoon-qr { width: 92px; height: 92px; color: var(--g-accent); }
+.vsoon h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.06; margin-bottom: 16px; }
+.vsoon p { max-width: 60ch; margin-bottom: 20px; }
+.vsoon-batch {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  background: var(--paper);
+  border-left: 2px solid var(--g-accent);
+}
+.vsoon-batch .k {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.vsoon-batch .k.te { text-transform: none; letter-spacing: 0.02em; font-size: 13px; }
+.vsoon-batch .v {
+  font-family: var(--display);
+  font-size: 26px;
+  letter-spacing: 0.02em;
+}
+.vsoon-meanwhile { color: var(--muted); font-size: 14px; }
 
 /* ==========================================================
    Responsive
@@ -1030,6 +1160,15 @@ main { padding-top: calc(84px + 10px); }
   }
   .stat-plate.right { text-align: left; }
   .stat-plate.right .plate-face { border-left: 2px solid var(--g-accent); border-right: 0; }
+
+  /* the floater is the primary way in on a phone — this is where the thumb
+     is, and the card opens to the full width it can reach */
+  .vfl { right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: 16px; align-items: flex-end; }
+  .vfl-card { width: 100%; }
+  /* the floater is wider here and sits closer in — more clearance */
+  .ftr-in { padding-bottom: 128px; }
+  .vsoon { grid-template-columns: 1fr; gap: 24px; }
+  .vsoon-qr { width: 64px; height: 64px; }
   .pgroup-head { flex-wrap: wrap; }
   .phead { padding-top: 56px; }
 }

@@ -37,6 +37,30 @@ export const Drop = (p) => (
   </svg>
 );
 
+/* a QR code reduced to its three finder squares and a little payload —
+   enough to read as "scan this" at 20px without pretending to be scannable.
+   The finder centres are filled rather than stroked: at 92px on the
+   verification page a 1.4px non-scaling stroke alone all but disappears. */
+export const QrMark = (p) => (
+  <svg viewBox="0 0 24 24" {...p}>
+    <path {...L} d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z" />
+    <path
+      fill="currentColor" stroke="none"
+      d="M5 5h3v3H5zM16 5h3v3h-3zM5 16h3v3H5z"
+    />
+    <path
+      fill="currentColor" stroke="none"
+      d="M14 14h3v3h-3zM19 14h2v2h-2zM18 18h3v3h-3zM14 19h2v2h-2z"
+    />
+  </svg>
+);
+
+export const Close = (p) => (
+  <svg viewBox="0 0 24 24" {...p}>
+    <path {...L} d="M6 6l12 12M18 6L6 18" />
+  </svg>
+);
+
 export const Check = (p) => (
   <svg viewBox="0 0 24 24" {...p}>
     <motion.path
