@@ -8,16 +8,21 @@ import { Arrow } from "../art.jsx";
 import Shot from "../shot.jsx";
 import { CATS, STATS, STEPS, PHONE, PHONE_TEL, T } from "../data.js";
 
-/* ---- the hero art: the farmland dissolving into the branded glass ----
+/* ---- the hero art: farmland → branded glass → the child ----
  *
- * Two frames stacked in one box, cross-dissolving on a slow cycle — the
- * source (4,200 households) reading as the cause of the glass. Each frame
- * carries its own plate, on opposite sides of the picture, dissolving on
- * the same clock. Held still under prefers-reduced-motion: the farmland
- * frame simply stays.
+ * Three frames stacked in one box, cross-dissolving on a slow loop: the
+ * source, the product, and the reason. Each frame carries its own plate,
+ * in its own corner, dissolving on the same clock. Held still under
+ * prefers-reduced-motion: the farmland frame simply stays.
+ *
+ * Only ever two layers are involved in a handover. The incoming frame
+ * fades in *on top of* the outgoing one, which is held opaque underneath
+ * until the fade completes — fading the outgoing one out at the same time
+ * would let the third frame show through the middle of every transition.
  */
 const HERO_HOLD = 3; // seconds a frame rests at full opacity
 const HERO_FADE = 0.9; // seconds of cross-dissolve
+const HERO_SHOTS = ["md-hero", "md-hero-glass", "md-hero-child"];
 
 const plateFade = (entering) => ({
   duration: HERO_FADE / 2,
@@ -26,16 +31,16 @@ const plateFade = (entering) => ({
 });
 
 function useHeroFrame(still) {
-  const [frame, setFrame] = useState(0);
+  const [f, setF] = useState({ frame: 0, prev: 0 });
   useEffect(() => {
     if (still) return;
     const id = setInterval(
-      () => setFrame((f) => (f === 0 ? 1 : 0)),
+      () => setF(({ frame }) => ({ frame: (frame + 1) % HERO_SHOTS.length, prev: frame })),
       (HERO_HOLD + HERO_FADE) * 1000
     );
     return () => clearInterval(id);
   }, [still]);
-  return frame;
+  return f;
 }
 
 /* ---- the animated pipeline that heads the process band ---- */
@@ -77,7 +82,7 @@ export default function Home() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const artY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -90]);
   const artOp = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0.35]);
-  const frame = useHeroFrame(reduce);
+  const { frame, prev } = useHeroFrame(reduce);
 
   const marqItems = [
     "Toned Milk", "పాలు", "Premium Cow Ghee", "నెయ్యి", "Paneer", "పనీర్",
@@ -138,16 +143,24 @@ export default function Home() {
 
           <motion.div className="hero-art" style={{ y: artY, opacity: artOp }}>
             <div className="hero-frames">
-              <Shot slot="md-hero" ratio="5 / 6" priority />
-              <motion.div
-                className="hero-frame-top"
-                initial={false}
-                animate={{ opacity: frame === 1 ? 1 : 0 }}
-                transition={{ duration: HERO_FADE, ease: "easeInOut" }}
-                aria-hidden={frame !== 1}
-              >
-                <Shot slot="md-hero-glass" ratio="5 / 6" priority />
-              </motion.div>
+              {HERO_SHOTS.map((slot, i) => (
+                <motion.div
+                  key={slot}
+                  className="hero-frame"
+                  /* the incoming frame sits above the outgoing one */
+                  style={{ zIndex: i === frame ? 3 : i === prev ? 2 : 1 }}
+                  initial={false}
+                  animate={{ opacity: i === frame || i === prev ? 1 : 0 }}
+                  /* only the incoming frame fades; the rest are already
+                     hidden behind it, so they can snap */
+                  transition={{ duration: i === frame ? HERO_FADE : 0, ease: "easeInOut" }}
+                  aria-hidden={i !== frame}
+                >
+                  {/* only the first frame is the LCP candidate; the other two
+                      still load up front, since they sit in the viewport */}
+                  <Shot slot={slot} ratio="5 / 6" priority={i === 0} />
+                </motion.div>
+              ))}
             </div>
 
             {/* Each plate belongs to its own frame and sits on its own side,
@@ -187,6 +200,24 @@ export default function Home() {
               >
                 <div className={`n line ${te}`}>{t("farmToGlass")}</div>
                 <div className={`l ${te}`}>{t("nothingAdded")}</div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              className="stat-plate top-right"
+              initial={reduce ? false : { opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
+            >
+              <motion.div
+                className="plate-face"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: frame === 2 ? 1 : 0 }}
+                transition={plateFade(frame === 2)}
+                aria-hidden={frame !== 2}
+              >
+                <div className={`n line ${te}`}>{t("freshMorning")}</div>
+                <div className={`l ${te}`}>{t("trustedSince")}</div>
               </motion.div>
             </motion.div>
           </motion.div>

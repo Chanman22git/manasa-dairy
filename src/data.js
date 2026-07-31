@@ -360,6 +360,8 @@ export const T = {
   /* the hero's second plate — pairs with the glass frame */
   farmToGlass: { en: "Farm to glass.", te: "పొలం నుండి గ్లాసుకు." },
   nothingAdded: { en: "Nothing added", te: "ఏమీ కలపకుండా" },
+  freshMorning: { en: "Fresh by morning.", te: "ఉదయానికే తాజాగా." },
+  trustedSince: { en: "Trusted since 1998", te: "1998 నుండి నమ్మకం" },
   threeLines: { en: "Three lines", te: "మూడు విభాగాలు" },
   whatWeSupply: { en: "What we supply", te: "మేము సరఫరా చేసేవి" },
   allNineSkus: { en: "All 9 SKUs →", te: "అన్ని 9 SKUలు →" },

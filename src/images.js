@@ -22,11 +22,17 @@ export const IMAGES = {
     credit: "Photo by Leon Ephraïm on Unsplash",
     href: "https://unsplash.com/@leonephraim",
   },
-  /* the hero's second frame — Manasa's own asset, so no credit line */
+  /* the hero's second and third frames — Manasa's own assets, no credit line.
+     BASE_URL, not a bare "/" — the site is served under /manasa-dairy/ */
   "md-hero-glass": {
-    // BASE_URL, not a bare "/" — the site is served under /manasa-dairy/
     src: `${import.meta.env.BASE_URL}manasa-glass.jpg`,
     alt: "A branded Manasa Dairy glass, filled to the brim with fresh milk.",
+  },
+  "md-hero-child": {
+    src: `${import.meta.env.BASE_URL}manasa-child.jpg`,
+    alt: "A smiling child holding a branded Manasa Dairy glass of milk in both hands.",
+    // the face sits high in the square — hold it as the box crops to 5:6
+    pos: "center 40%",
   },
   "md-story": {
     src: u("1626561921730-200b9a3ecc95", 1200),
