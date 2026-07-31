@@ -521,17 +521,33 @@ main { padding-top: calc(84px + 10px); }
 .cat:hover .shot img,
 .pcard:hover .shot img { transform: scale(1.05); }
 
+/* the hero's two frames, stacked so they cross-dissolve in place */
+.hero-frames { position: relative; }
+.hero-frame-top { position: absolute; inset: 0; }
+
+/* the plate: an absolutely-placed slot that only carries the entrance
+   slide, and the face inside it that dissolves with its frame */
 .stat-plate {
   position: absolute;
   left: -56px;
   bottom: 44px;
+  /* wide enough that "Farm to glass." holds one line, like the number does */
+  max-width: 272px;
+}
+.stat-plate.right { left: auto; right: -56px; text-align: right; }
+
+.stat-plate .plate-face {
   /* the page surface punching over the photo — follows the backdrop */
   background: var(--backdrop);
   padding: 26px 30px;
-  max-width: 250px;
   border-left: 2px solid var(--g-accent);
 }
+/* the right-hand plate mirrors: the accent edge follows the text */
+.stat-plate.right .plate-face { border-left: 0; border-right: 2px solid var(--g-accent); }
 .stat-plate .n { font-family: var(--display); font-size: 34px; line-height: 1; }
+/* the worded face carries more characters than the number does */
+.stat-plate .n.line { font-size: 30px; line-height: 1.08; }
+.stat-plate .n.line.te { font-size: 23px; line-height: 1.32; }
 .stat-plate .l {
   font-size: 12px;
   letter-spacing: 0.14em;
@@ -961,6 +977,7 @@ main { padding-top: calc(84px + 10px); }
   :root { --gutter: 40px; }
   .hero-grid { grid-template-columns: 1fr; gap: 48px; }
   .stat-plate { left: 0; }
+  .stat-plate.right { right: 0; }
   .split, .split-rev { grid-template-columns: 1fr; gap: 44px; }
   .qgrid { grid-template-columns: 1fr; gap: 36px; }
   .qsticky { position: static; }
@@ -999,7 +1016,20 @@ main { padding-top: calc(84px + 10px); }
   main { padding-top: calc(72px + 8px); }
   .enq-band { padding: 36px 24px; }
   .aside { padding: 32px 26px; }
-  .stat-plate { position: static; margin-top: 20px; max-width: none; }
+  /* the plates drop below the picture here. Both land in one grid cell so
+     the hidden one costs no height, and both read left-aligned — the
+     desktop mirror would just make the copy jump side to side. */
+  .hero-art { display: grid; grid-template-rows: auto auto; }
+  .hero-frames { grid-row: 1; }
+  .stat-plate {
+    position: static;
+    margin-top: 20px;
+    max-width: none;
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .stat-plate.right { text-align: left; }
+  .stat-plate.right .plate-face { border-left: 2px solid var(--g-accent); border-right: 0; }
   .pgroup-head { flex-wrap: wrap; }
   .phead { padding-top: 56px; }
 }

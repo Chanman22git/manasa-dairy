@@ -1,12 +1,42 @@
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Btn, Counter, Head, Reveal, SplitLine, SplitReveal, Tr, useLang, useT, useTx, EASE,
 } from "../ui.jsx";
 import { Arrow } from "../art.jsx";
 import Shot from "../shot.jsx";
 import { CATS, STATS, STEPS, PHONE, PHONE_TEL, T } from "../data.js";
+
+/* ---- the hero art: the farmland dissolving into the branded glass ----
+ *
+ * Two frames stacked in one box, cross-dissolving on a slow cycle — the
+ * source (4,200 households) reading as the cause of the glass. Each frame
+ * carries its own plate, on opposite sides of the picture, dissolving on
+ * the same clock. Held still under prefers-reduced-motion: the farmland
+ * frame simply stays.
+ */
+const HERO_HOLD = 4.4; // seconds a frame rests
+const HERO_FADE = 1.9; // seconds of cross-dissolve
+
+const plateFade = (entering) => ({
+  duration: HERO_FADE / 2,
+  delay: entering ? HERO_FADE / 2 : 0,
+  ease: "easeInOut",
+});
+
+function useHeroFrame(still) {
+  const [frame, setFrame] = useState(0);
+  useEffect(() => {
+    if (still) return;
+    const id = setInterval(
+      () => setFrame((f) => (f === 0 ? 1 : 0)),
+      (HERO_HOLD + HERO_FADE) * 1000
+    );
+    return () => clearInterval(id);
+  }, [still]);
+  return frame;
+}
 
 /* ---- the animated pipeline that heads the process band ---- */
 function Pipeline({ still }) {
@@ -47,6 +77,7 @@ export default function Home() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const artY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -90]);
   const artOp = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0.35]);
+  const frame = useHeroFrame(reduce);
 
   const marqItems = [
     "Toned Milk", "పాలు", "Premium Cow Ghee", "నెయ్యి", "Paneer", "పనీర్",
@@ -106,15 +137,57 @@ export default function Home() {
           </div>
 
           <motion.div className="hero-art" style={{ y: artY, opacity: artOp }}>
-            <Shot slot="md-hero" ratio="5 / 6" priority />
+            <div className="hero-frames">
+              <Shot slot="md-hero" ratio="5 / 6" priority />
+              <motion.div
+                className="hero-frame-top"
+                initial={false}
+                animate={{ opacity: frame === 1 ? 1 : 0 }}
+                transition={{ duration: HERO_FADE, ease: "easeInOut" }}
+                aria-hidden={frame !== 1}
+              >
+                <Shot slot="md-hero-glass" ratio="5 / 6" priority />
+              </motion.div>
+            </div>
+
+            {/* Each plate belongs to its own frame and sits on its own side,
+                so the dissolve carries the composition across the picture.
+                The outer element only holds the entrance slide; the face
+                inside it is the visible plate, and that is what dissolves. */}
             <motion.div
               className="stat-plate"
               initial={reduce ? false : { opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
             >
-              <div className="n"><Counter to={4200} /></div>
-              <div className={`l ${te}`}>{t("farmerHouseholds")}</div>
+              <motion.div
+                className="plate-face"
+                initial={false}
+                animate={{ opacity: frame === 0 ? 1 : 0 }}
+                transition={plateFade(frame === 0)}
+                aria-hidden={frame !== 0}
+              >
+                <div className="n"><Counter to={4200} /></div>
+                <div className={`l ${te}`}>{t("farmerHouseholds")}</div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              className="stat-plate right"
+              initial={reduce ? false : { opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
+            >
+              <motion.div
+                className="plate-face"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: frame === 1 ? 1 : 0 }}
+                transition={plateFade(frame === 1)}
+                aria-hidden={frame !== 1}
+              >
+                <div className={`n line ${te}`}>{t("farmToGlass")}</div>
+                <div className={`l ${te}`}>{t("nothingAdded")}</div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
