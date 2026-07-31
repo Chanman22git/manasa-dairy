@@ -22,6 +22,12 @@ export const IMAGES = {
     credit: "Photo by Leon Ephraïm on Unsplash",
     href: "https://unsplash.com/@leonephraim",
   },
+  /* the hero's second frame — Manasa's own asset, so no credit line */
+  "md-hero-glass": {
+    // BASE_URL, not a bare "/" — the site is served under /manasa-dairy/
+    src: `${import.meta.env.BASE_URL}manasa-glass.jpg`,
+    alt: "A branded Manasa Dairy glass, filled to the brim with fresh milk.",
+  },
   "md-story": {
     src: u("1626561921730-200b9a3ecc95", 1200),
     alt: "Founder with farmers at a village collection point.",

@@ -357,6 +357,9 @@ export const T = {
   rateCard: { en: "Request a rate card", te: "ధరల జాబితా కోరండి" },
   seeRange: { en: "See the range", te: "ఉత్పత్తులు చూడండి" },
   farmerHouseholds: { en: "farmer households", te: "రైతు కుటుంబాలు" },
+  /* the hero's second plate — pairs with the glass frame */
+  farmToGlass: { en: "Farm to glass.", te: "పొలం నుండి గ్లాసుకు." },
+  nothingAdded: { en: "Nothing added", te: "ఏమీ కలపకుండా" },
   threeLines: { en: "Three lines", te: "మూడు విభాగాలు" },
   whatWeSupply: { en: "What we supply", te: "మేము సరఫరా చేసేవి" },
   allNineSkus: { en: "All 9 SKUs →", te: "అన్ని 9 SKUలు →" },
