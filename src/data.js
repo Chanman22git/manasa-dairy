@@ -489,6 +489,31 @@ export const T = {
   },
   fasterThroughForm: { en: "Supply enquiries move faster through the form.", te: "ఫారం ద్వారా విచారణలు వేగంగా పరిష్కరిస్తాం." },
 
+  /* batch verification — the floater and its page */
+  verifyFloat: { en: "Verify a batch", te: "బ్యాచ్ ధృవీకరించండి" },
+  verifyOpen: { en: "Open batch verification", te: "బ్యాచ్ ధృవీకరణ తెరవండి" },
+  verifyClose: { en: "Close", te: "మూసివేయండి" },
+  verifyCardH: { en: "Check what is in the pack.", te: "ప్యాక్‌లో ఏముందో చూడండి." },
+  verifyCardP: {
+    en: "Scan the QR on the pack, or enter the batch code by hand, to see the collection date, the plant and the test results for that batch.",
+    te: "ప్యాక్‌పై ఉన్న QR స్కాన్ చేయండి, లేదా బ్యాచ్ కోడ్ నమోదు చేయండి — ఆ బ్యాచ్ సేకరణ తేదీ, ప్లాంట్, పరీక్ష ఫలితాలు కనిపిస్తాయి.",
+  },
+  verifyCta: { en: "Scan or enter a code", te: "స్కాన్ చేయండి లేదా కోడ్ ఇవ్వండి" },
+  verifyEyebrow: { en: "Batch verification", te: "బ్యాచ్ ధృవీకరణ" },
+  verifyH1: { en: "Every pack carries its own record.", te: "ప్రతి ప్యాక్‌కూ దాని స్వంత రికార్డు ఉంది." },
+  verifySoonH: { en: "This page is being built.", te: "ఈ పేజీ నిర్మాణంలో ఉంది." },
+  verifySoonP: {
+    en: "Scanning is not live yet. When it opens, the QR on every pack will bring you straight here with the batch already filled in — collection date, plant, and the fat, SNF and antibiotic results recorded for it.",
+    te: "స్కానింగ్ ఇంకా అందుబాటులో లేదు. ప్రారంభమైన తర్వాత, ప్రతి ప్యాక్‌పై ఉన్న QR మిమ్మల్ని నేరుగా ఇక్కడికి తీసుకువస్తుంది — బ్యాచ్ వివరాలు, సేకరణ తేదీ, ప్లాంట్, ఫ్యాట్, SNF, యాంటీబయాటిక్ ఫలితాలతో.",
+  },
+  verifyScanned: { en: "Scanned batch", te: "స్కాన్ చేసిన బ్యాచ్" },
+  /* qualityProtocolLink carries its own arrow, and <Btn> adds one of its own */
+  verifyQualityLink: { en: "Read the quality protocol", te: "నాణ్యతా ప్రమాణాలు చదవండి" },
+  verifyMeanwhile: {
+    en: "Until then, our quality protocol sets out every test a batch passes before it leaves the plant.",
+    te: "అప్పటివరకు, ప్లాంట్ నుండి బయలుదేరే ముందు ప్రతి బ్యాచ్ ఎదుర్కొనే పరీక్షలన్నీ మా నాణ్యతా ప్రమాణాల్లో ఉన్నాయి.",
+  },
+
   /* footer */
   ftrRange: { en: "Range", te: "శ్రేణి" },
   ftrCompany: { en: "Company", te: "సంస్థ" },

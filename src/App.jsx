@@ -7,6 +7,7 @@ import { AnimatePresence } from "motion/react";
 import {
   Cursor, Footer, Header, LangProvider, PageShell, ScrollRail,
 } from "./ui.jsx";
+import VerifyFloater from "./verify.jsx";
 import Backdrop from "./backdrop.jsx";
 
 import Home from "./pages/Home.jsx";
@@ -15,6 +16,7 @@ import Quality from "./pages/Quality.jsx";
 import Story from "./pages/Story.jsx";
 import Enquiry from "./pages/Enquiry.jsx";
 import Contact from "./pages/Contact.jsx";
+import Verify from "./pages/Verify.jsx";
 
 const TITLES = {
   "/": "Manasa Dairy — Institutional dairy supply",
@@ -23,6 +25,7 @@ const TITLES = {
   "/story": "Our story — Manasa Dairy",
   "/enquiry": "Bulk enquiry — Manasa Dairy",
   "/contact": "Find us — Manasa Dairy",
+  "/verify": "Verify a batch — Manasa Dairy",
 };
 
 function Routed() {
@@ -42,6 +45,7 @@ function Routed() {
         <Route path="/story" element={<PageShell><Story /></PageShell>} />
         <Route path="/enquiry" element={<PageShell><Enquiry /></PageShell>} />
         <Route path="/contact" element={<PageShell><Contact /></PageShell>} />
+        <Route path="/verify" element={<PageShell><Verify /></PageShell>} />
         <Route path="*" element={<PageShell><Home /></PageShell>} />
       </Routes>
     </AnimatePresence>
@@ -60,6 +64,7 @@ export default function App() {
           <Header />
           <main><Routed /></main>
           <Footer />
+          <VerifyFloater />
         </div>
       </LangProvider>
     </BrowserRouter>
