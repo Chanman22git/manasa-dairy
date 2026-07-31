@@ -1008,9 +1008,44 @@ main { padding-top: calc(84px + 10px); }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.3s ease, padding 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative; /* anchors the breathing glow below */
+  /* The one shadow on the site. Everything else takes its depth from
+     hairlines and fills, so this stays low-alpha and strictly in the accent
+     green — a halo tight to the edge plus a wider bloom, so it reads as the
+     pill being lit rather than as a drop shadow under it. */
+  box-shadow:
+    0 0 0 5px rgba(47, 125, 75, 0.09),
+    0 6px 26px rgba(47, 125, 75, 0.3);
+  transition: background 0.3s ease, box-shadow 0.3s ease,
+              padding 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.vfl-btn:hover { background: var(--g-accent); }
+.vfl-btn:hover {
+  background: var(--g-accent);
+  box-shadow:
+    0 0 0 7px rgba(47, 125, 75, 0.15),
+    0 8px 32px rgba(47, 125, 75, 0.42);
+}
+
+/* the breathing pulse: a second glow behind the pill, swelling and receding
+   on its own slow clock. Only opacity animates — the layer itself never
+   changes size, so this stays off the layout and paint path. */
+.vfl-btn::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  box-shadow: 0 0 24px 8px rgba(47, 125, 75, 0.38);
+  opacity: 0;
+  pointer-events: none;
+  animation: vfl-breathe 4.2s ease-in-out infinite;
+}
+/* hover already lifts the glow — two sources at once reads as a flicker */
+.vfl-btn:hover::before { animation-play-state: paused; opacity: 0; }
+
+@keyframes vfl-breathe {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
 .vfl-qr { flex: none; }
 
 /* collapsing by max-width keeps the glyph still while the words leave */
@@ -1185,4 +1220,6 @@ main { padding-top: calc(84px + 10px); }
   }
   .marq-track { animation: none; }
   .cursor { display: none; }
+  /* the floater keeps its steady glow, but stops breathing */
+  .vfl-btn::before { animation: none; opacity: 0; }
 }
