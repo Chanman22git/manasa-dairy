@@ -16,8 +16,8 @@ import { CATS, STATS, STEPS, PHONE, PHONE_TEL, T } from "../data.js";
  * the same clock. Held still under prefers-reduced-motion: the farmland
  * frame simply stays.
  */
-const HERO_HOLD = 4.4; // seconds a frame rests
-const HERO_FADE = 1.9; // seconds of cross-dissolve
+const HERO_HOLD = 5; // seconds a frame rests at full opacity
+const HERO_FADE = 0.9; // seconds of cross-dissolve
 
 const plateFade = (entering) => ({
   duration: HERO_FADE / 2,
